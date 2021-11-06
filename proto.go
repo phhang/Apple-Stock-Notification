@@ -6,7 +6,7 @@ type Message struct {
 }
 
 type ConfigOption struct {
-	Modals         []string `yaml:"modals"`
+	Models         []string `yaml:"models"`
 	NotifyUrl      []string `yaml:"notifyUrl"`
 	Location       string   `yaml:"location"`
 	SearchInterval int      `yaml:"searchInterval"`
@@ -36,6 +36,7 @@ type PickupMessage1 struct {
 
 type Store struct {
 	StoreName         string            `json:"storeName"`
+	State             string            `json:"state"`
 	PartsAvailability PartsAvailability `json:"partsAvailability"`
 }
 

@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	SearchUrl = "https://www.apple.com.cn/shop/fulfillment-messages"
+	SearchUrl = "https://www.apple.com/us-hed/shop/fulfillment-messages"  // search us education store
 )
 
 type Apple struct {
@@ -53,6 +53,7 @@ func (apple *Apple) Serve() {
 func (apple *Apple) ReqSearch() {
 	log.Printf("[I] 开始查询苹果接口. 查询位置:%v", apple.configOption.Location)
 	appleUrl := apple.makeUrl()
+	// log.Printf("[D] appleUrl: %v", appleUrl)  // debug log for url
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
@@ -105,7 +106,8 @@ func (apple *Apple) ReqSearch() {
 func (apple *Apple) sendNotificationToBarkApp(messages []*Message) {
 	for _, msg := range messages {
 		for _, notifyUrl := range apple.configOption.NotifyUrl {
-			url := fmt.Sprintf("%v/%v/%v", notifyUrl, msg.Title, msg.Content)
+			url := fmt.Sprintf("%v/%v/%v?sound=minuet", notifyUrl, msg.Title, msg.Content)
+			// log.Printf("[D] notification url: %v", url)  // debug log for notification url
 			_, err := apple.cli.Get(url)
 			if err != nil {
 				log.Printf("[E] send stock message failed. err:%v", err)
@@ -115,7 +117,7 @@ func (apple *Apple) sendNotificationToBarkApp(messages []*Message) {
 }
 
 func (apple *Apple) hasStockOffline(s string) bool {
-	return strings.Contains(s, "可取货") && !strings.Contains(s, "不")
+	return strings.Contains(s, "vailable") && !strings.Contains(s, "Currently unavailable")
 }
 
 func (apple *Apple) unMarshalResp(resp *http.Response) (*SearchResponse, error) {
@@ -139,13 +141,13 @@ func (apple *Apple) unMarshalResp(resp *http.Response) (*SearchResponse, error) 
 func (apple *Apple) makeUrl() string {
 	values := make(url.Values)
 	values.Add("mt", "regular")
-	values.Add("little", "false")
+//	values.Add("little", "false")  // Seems unused
 	values.Add("pl", "true")
 	values.Add("location", apple.configOption.Location)
 
-	for i, modal := range apple.configOption.Modals {
+	for i, model := range apple.configOption.Models {
 		key := fmt.Sprintf("parts.%d", i)
-		values.Add(key, modal)
+		values.Add(key, model)
 	}
 
 	query := values.Encode()

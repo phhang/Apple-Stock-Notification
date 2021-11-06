@@ -1,8 +1,8 @@
-## for buy iphone 13 notification
+## Apple Stock notification
 
-cisasntyi: check iphone stock and send notification to your iphone
+This is my fork from [cisasntyi](https://github.com/SealinGp/cisasntyi): check iphone stock and send notification to your iphone
 
-install Bark app in your iphone first before you run it
+install **Bark - Customed Notifications** app, then add endpoint to yml file
 
 ### run local
 
