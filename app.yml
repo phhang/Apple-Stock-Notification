@@ -3,7 +3,10 @@
 searchInterval: 30
 
 #线下店地址区域，例如 "Portland, OR"
-location: "广东 深圳 南山区"
+location: "Portland, OR"
+
+#筛选线下店所在城市，例如 "Portland", "Tigard" 则只提醒这两个城市的门店
+city: ["Portland", "Tigard"]
 
 #手机型号, 通过访问官网,选择机型 可在uri中得到 比如 MLE93CH/A (iphone 13 512GB 粉色)
 models: ["MLDW3CH/A","MLDV3CH/A"]

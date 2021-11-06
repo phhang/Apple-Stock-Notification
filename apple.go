@@ -81,6 +81,9 @@ func (apple *Apple) ReqSearch() {
 	stores := searchResponse.Body.Content.PickupMessage.Stores
 	for _, store := range stores {
 
+		if !apple.inDesiredCity(store.City) {
+			continue
+		}
 		for _, info := range store.PartsAvailability {
 			iphoneModal := info.StorePickupProductTitle
 			pickTime := info.PickupSearchQuote
@@ -118,6 +121,15 @@ func (apple *Apple) sendNotificationToBarkApp(messages []*Message) {
 
 func (apple *Apple) hasStockOffline(s string) bool {
 	return strings.Contains(s, "vailable") && !strings.Contains(s, "Currently unavailable")
+}
+
+func (apple *Apple) inDesiredCity(s string) bool {
+	for _, filterCity := range apple.configOption.FilterCities {
+		if filterCity == s {
+			return true
+		}
+	}
+	return false
 }
 
 func (apple *Apple) unMarshalResp(resp *http.Response) (*SearchResponse, error) {

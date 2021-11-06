@@ -10,6 +10,7 @@ type ConfigOption struct {
 	NotifyUrl      []string `yaml:"notifyUrl"`
 	Location       string   `yaml:"location"`
 	SearchInterval int      `yaml:"searchInterval"`
+	FilterCities     []string `yaml:"filterCities"`
 }
 
 type SearchResponse struct {
@@ -36,7 +37,7 @@ type PickupMessage1 struct {
 
 type Store struct {
 	StoreName         string            `json:"storeName"`
-	State             string            `json:"state"`
+	City              string            `json:"city"`
 	PartsAvailability PartsAvailability `json:"partsAvailability"`
 }
 
